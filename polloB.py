@@ -87,5 +87,5 @@ def start():
     ventana.geometry(f"{WINDOW_SIZE}x{WINDOW_SIZE}+{int(vx)}+{int(vy)}")
     after_id = ventana.after(20, start)
 
-time.sleep(180)
+time.sleep(10)
 createWindow()
