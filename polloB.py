@@ -8,8 +8,7 @@ import time
 import os
 import sys
 
-def resource_path(relative_path):
-    # PyInstaller crea una carpeta temporal para los archivos
+def resource_path(relative_path): # This function reads files as requested by the library (PyInstaller)
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, relative_path)
     return relative_path
@@ -17,7 +16,7 @@ def resource_path(relative_path):
 # window config
 vx = 10 # view x
 vy = 10 # view y
-x, y = pyautogui.position()
+x, y = pyautogui.position() # mouse position
 ventana = tk.Tk()
 pyautogui.FAILSAFE = False
 
@@ -34,7 +33,7 @@ petLbl.pack()
 WINDOW_SIZE = 70
 
 # others
-cursor_in_window = False
+cursor_in_window = False # if cursor is on the chicken it will be True
 after_id = 0
 
 def lose():
@@ -47,28 +46,22 @@ def on_enter(event):
     ventana.after_cancel(after_id)
     lose()
 
-def mover(event=None): # pone la ventana justo en donde esta el mouse
-    global vx, vy, WINDOW_SIZE
-    
-    x, y = pyautogui.position()
-    vx = x - WINDOW_SIZE / 2
-    vy = y - WINDOW_SIZE / 2
-    ventana.geometry(f"{WINDOW_SIZE}x{WINDOW_SIZE}+{int(vx)}+{int(vy)}")
-
 def createWindow():
+
+    # preparing the window
     global ventana, vx, vy, x, y
     ventana.configure(background='black', cursor="none")
-    ventana.attributes('-transparentcolor', 'black')  # Hace clickeable lo que está detrás de la ventana
+    ventana.attributes('-transparentcolor', 'black')
     ventana.attributes('-topmost', True)
     ventana.geometry(f"{WINDOW_SIZE}x{WINDOW_SIZE}+{vx}+{vy}")
     ventana.bind('<F3>', lambda e: ventana.destroy())
     ventana.overrideredirect(True)
-    ventana.bind('<a>', mover)
     ventana.bind('<Enter>', on_enter)
+
     start()
     ventana.mainloop()
 
-def start():
+def start(): # This function starts the movement of the window
     global x, y, vx, vy, ventana, petLbl, cursor_in_window, after_id
     speed = 1
     x, y = pyautogui.position()
